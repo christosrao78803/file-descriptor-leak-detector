@@ -34,3 +34,10 @@ The `now` option exists so tests can pass a deterministic clock instead of asser
 - `det.getOpenDescriptors()` — returns the same array without throwing.
 - `det.getOpenCount()` — returns the integer count of live tracked descriptors.
 - `async det.cleanup()` — closes every still-tracked descriptor best-effort and returns what was closed.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
